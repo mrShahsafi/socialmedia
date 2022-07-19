@@ -15,22 +15,22 @@ try:
 except Exception:
     pass
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-#
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("DB_NAME", default="yuruma"),
-        "USER": os.getenv("DB_USER", default="yurumauser"),
-        "PASSWORD": os.getenv("DB_PASS", default="2187481"),
-        "PORT": "5432",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         "NAME": os.getenv("DB_NAME", default="yuruma"),
+#         "USER": os.getenv("DB_USER", default="yurumauser"),
+#         "PASSWORD": os.getenv("DB_PASS", default="2187481"),
+#         "PORT": "5432",
+#     }
+# }
 
 INSTALLED_APPS += [
     "debug_toolbar",
