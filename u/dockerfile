@@ -1,0 +1,12 @@
+From python:latest
+
+LABEL MAINTAINER="socialmedia theSam"
+
+ADD . /u
+WORKDIR /u
+
+# Installing steps
+
+RUN pip install --upgrade pip setuptools wheel
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
+ENV DJANGO_ENV=development

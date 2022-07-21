@@ -17,7 +17,7 @@ class UserManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email.lower()),
-            username = username,
+            username=username,
             is_active=is_active,
             first_name=first_name,
             last_name=last_name,
@@ -34,20 +34,19 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, email=None, password=None,username=None):
+    def create_superuser(self, email=None, password=None, username=None):
         user = self.create_user(
             email=email,
             password=password,
             username=username,
         )
-        user.is_superuser = True
-        user.is_staff = True
+        user.is_superuser, user.is_staff, user.is_active = True, True, True
         user.save(using=self._db)
         return user
 
     def all_actives(self):
         qs = self.filter(
-            is_active = True,
+            is_active=True,
         )
         return qs
 

@@ -13,17 +13,24 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.urls import re_path as url
 from django.contrib import admin
-from django.urls import path,include
-from .settings import DEBUG
+from django.urls import path, include
+#from graphene_django.views import GraphQLView
+from .settings import (SITE_NAME,DEBUG)
+
+admin.site.site_header = SITE_NAME
+admin.site.site_title = f"{SITE_NAME} Portal"
+admin.site.index_title = f"Welcome to {SITE_NAME} Portal"
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("", admin.site.urls),
+    # path("ql-query/", GraphQLView.as_view(graphiql=True)),
 ]
 
 if DEBUG:
     import debug_toolbar
 
     urlpatterns += [
-        path(r'^__debug__/', include(debug_toolbar.urls)),
+        url(r'^__debug__/', include(debug_toolbar.urls)),
     ]

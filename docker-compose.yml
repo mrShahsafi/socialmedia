@@ -1,0 +1,138 @@
+version: "3.7"
+services:
+    u:
+        container_name: user
+        restart: always
+        ports:
+            - 8000:8000
+        build: ./u
+        depends_on:
+#            - confs
+            - redis
+        volumes:
+            - ./u:/u
+        command: bash -c  "./manage.py makemigrations &&
+            ./manage.py migrate && ./manage.py collectstatic &&
+            ./manage.py runserver 0.0.0.0:8000"
+        
+    auth:
+        container_name: auth
+        restart: always
+        ports:
+            - 8001:8001
+        build: ./auth
+        depends_on:
+            - confs
+            - redis
+        volumes:
+            - ./auth:/auth
+        command: bash -c  "./manage.py makemigrations &&
+            ./manage.py migrate && ./manage.py collectstatic &&
+            ./manage.py runserver 0.0.0.0:8001"
+
+    u_database:
+        container_name: u_psg_db
+        image: postgres
+        restart: always
+        ports:
+            - 5432:5432
+
+        volumes:
+          - ./volumes/postgres_volume/:/var/lib/postgresql/data/
+        environment:
+          - POSTGRES_DB= u_db
+          - POSTGRES_USER=socialmedia_user
+          - POSTGRES_PASSWORD=W0w3MQdo9x6S
+        
+        
+    redis:
+        container_name: redis
+        image: redis
+        restart: always
+        ports: 
+            - 6379:6379
+        volumes:
+            - ./volumes/redis_volume/:/data/
+        
+    payment:
+        container_name: payment
+        restart: always
+        ports:
+            - 8002:8002
+        build: ./payment
+        depends_on:
+  #          - confs
+            - redis
+        volumes:
+            - ./payment:/payment
+        command: bash -c  "./manage.py makemigrations &&
+            ./manage.py migrate && ./manage.py collectstatic &&
+            ./manage.py runserver 0.0.0.0:8002"
+
+    emails:
+        container_name: emails
+        restart: always
+        ports:
+            - 8003:8003
+        build: ./emails
+        depends_on:
+  #          - confs
+            - redis
+        volumes:
+            - ./emails:/emails
+        command: bash -c  "./manage.py makemigrations &&
+            ./manage.py migrate && ./manage.py collectstatic &&
+            ./manage.py runserver 0.0.0.0:8003"
+    media:
+        container_name: media
+        restart: always
+        ports:
+            - 8004:8004
+        build: ./media
+        depends_on:
+  #          - confs
+            - redis
+        volumes:
+            - ./media:/media
+        command: bash -c  "./manage.py makemigrations &&
+            ./manage.py migrate && ./manage.py collectstatic &&
+            ./manage.py runserver 0.0.0.0:8004"
+    timeline:
+        container_name: timeline
+        restart: always
+        ports:
+            - 8005:8005
+        build: ./timeline
+        depends_on:
+  #          - confs
+            - redis
+        volumes:
+            - ./timeline:/timeline
+        command: bash -c  "./manage.py makemigrations &&
+            ./manage.py migrate && ./manage.py collectstatic &&
+            ./manage.py runserver 0.0.0.0:8005"
+    front:
+        container_name: front
+        build: ./front
+        restart: always
+        ports:
+            - 8006:3000
+        volumes:
+            - ./front:front/
+        working_dir: ./front
+        command:
+            sh -c "npm run dev"
+    confs:
+        container_name: confs
+        restart: always
+        ports:
+            - 8007:8007
+        build: ./confs
+        depends_on:
+  #          - confs
+            - redis
+        volumes:
+            - ./confs:/confs
+        command: bash -c  "./manage.py makemigrations &&
+            ./manage.py migrate && ./manage.py collectstatic &&
+            ./manage.py runserver 0.0.0.0:8007"
