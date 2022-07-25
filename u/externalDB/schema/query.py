@@ -4,11 +4,11 @@ from graphene import (
     ObjectType,
     String,
 )
-# from wallet.graphql.schema.query import WalletQuery
+from core.graphql.schema.query import UserQuery
 
 
-class Query(ObjectType,):
-    hello = String()
+class Query(ObjectType, UserQuery):
+    status = String()
 
     def resolve_hello(self, info):
-        return "world"
+        return "ok"

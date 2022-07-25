@@ -38,7 +38,10 @@ DEFAULT_APPS = [
     'django.contrib.messages',
     'django.contrib.sessions',
 ]
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    "graphene_django",
+
+]
 CREATED_APPS = ["core"]
 
 INSTALLED_APPS = DEFAULT_APPS + CREATED_APPS + THIRD_PARTY_APPS

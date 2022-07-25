@@ -16,7 +16,9 @@ Including another URLconf
 from django.urls import re_path as url
 from django.contrib import admin
 from django.urls import path, include
-#from graphene_django.views import GraphQLView
+from django.views.decorators.csrf import csrf_exempt
+
+from graphene_django.views import GraphQLView
 from .settings import (SITE_NAME,DEBUG)
 
 admin.site.site_header = SITE_NAME
@@ -24,8 +26,8 @@ admin.site.site_title = f"{SITE_NAME} Portal"
 admin.site.index_title = f"Welcome to {SITE_NAME} Portal"
 
 urlpatterns = [
-    path("", admin.site.urls),
-    # path("ql-query/", GraphQLView.as_view(graphiql=True)),
+    path("site-admin/", admin.site.urls),
+    path("ql-query/", csrf_exempt(GraphQLView.as_view(graphiql=True))),
 ]
 
 if DEBUG:
